@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Sistema Solar </title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+        #info {
+                position: absolute;
+                padding: 10px;
+                width: 100%;
+                text-align: center;
+                color: #FFFFFF;
+            }
+    </style>
+  </head>
+  <body>
+      <div id="info">
+        
+           Ejericio 2.2 <br/>
+            Javier Carrillo//6000361<br/>
+                       
+        </div>
+      
+        <script src="js/three.min.js"></script>
+        
+		
+            
+    <script>
+        
+        //VARIABLES 
+
+        var scene, aspect, camera, renderer;
+
+
+        init();
+        animate();
+        
+           function init() {
+                scene = new THREE.Scene();
+                aspect = window.innerWidth / window.innerHeight;
+                camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+				
+
+        
+			//ELEMENTOS DE ESCENA
+							  
+			var size = 50;
+			var arrowSize = 1;
+			var divisions = size;
+			var origin = new THREE.Vector3( 0, 0, 0 );
+			var x = new THREE.Vector3( 1, 0, 0 );
+			var y = new THREE.Vector3( 0, 1, 0 );
+		  	var z = new THREE.Vector3( 0, 0, 1 );
+			var color1 = new THREE.Color( 0xFFFFFF );
+		  	var color2 = new THREE.Color( 0x333333 );
+		  	var colorR = new THREE.Color( 0xAA0000 );
+		  	var colorG = new THREE.Color( 0x00AA00 );
+		  	var colorB = new THREE.Color( 0x0000AA );
+		  	var colorGd = new THREE.Color( 0x66AA66 );
+		  	
+		  
+        
+            //CREAR LAS FLECHAS QUE INDICAN LOS EJES DE COORDENADAS 3D
+            var arrowX = new THREE.ArrowHelper( x, origin, arrowSize, colorR );
+            var arrowY = new THREE.ArrowHelper( y, origin, arrowSize, colorG );
+            var arrowZ = new THREE.ArrowHelper( z, origin, arrowSize, colorB );
+        
+                 
+               
+            var sphereGeometry = new THREE.SphereGeometry(0.3,32,32);
+            var sphereMaterial = new THREE.MeshBasicMaterial()
+
+        
+        
+            var matPlaneta2 = new THREE.MeshBasicMaterial ({color: 0x00AA99, size: 0.1});
+            var matPlaneta1 = new THREE.MeshBasicMaterial ({color: 0xFFFF00, size: 0.1});
+            var matLuna1 = new THREE.MeshBasicMaterial ({color: 0xCCCCCC, size: 0.1});
+            var matPlaneta3 = new THREE.MeshBasicMaterial ({color: 0xAA7777, size: 0.1});
+            
+
+        
+            //PLANETA1
+        
+            Planeta1 = new THREE.Mesh(sphereGeometry, matPlaneta1);
+            Planeta1.applyMatrix( new THREE.Matrix4().makeScale(30,30,30) );
+               
+            //PLANETA2
+            Planeta2 = new THREE.Mesh(sphereGeometry, matPlaneta2);
+            Planeta2.applyMatrix( new THREE.Matrix4().makeScale(0.5,0.5,0.5) );
+               Planeta2.applyMatrix( new THREE.Matrix4().makeTranslation(1,0,0) );
+               
+            //LUNA1
+            luna1 = new THREE.Mesh(sphereGeometry, matLuna1);
+            luna1.applyMatrix( new THREE.Matrix4().makeScale(.5,.5,.5) );
+            luna1.applyMatrix( new THREE.Matrix4().makeTranslation(1,0,0) );
+               
+               
+            //PLANETA3
+               Planeta3 = new THREE.Mesh(sphereGeometry, matPlaneta3);
+               Planeta3.applyMatrix( new THREE.Matrix4().makeScale(0.8,0.8,0.8) );
+               Planeta3.applyMatrix( new THREE.Matrix4().makeTranslation(-2,0,0) );
+
+        
+           //Sistema Solar
+             Planeta1.add(Planeta2);
+             Planeta1.add(Planeta3);
+             Planeta2.add(luna1);      
+
+        //Scena
+         
+		scene.add(Planeta1, camera,arrowX, arrowY, arrowZ);
+        
+            
+        //MOVER LA CAMARA
+			camera.position.x = 0;
+			camera.position.y = 300;	 
+		  	camera.position.z = 0;			
+		  	camera.lookAt( origin );
+        }
+                               
+        function animate() {
+                render();
+                requestAnimationFrame(animate);
+				
+        }		
+        function render() {
+                  
+		    camera.lookAt( 0, 0, 0);
+            var animate = function () {
+				requestAnimationFrame( animate );
+				renderer.render( scene, camera );
+                
+                Planeta2.rotateY(0.00004);
+                Planeta1.rotateY(0.0000008);
+                Planeta3.rotateY(0.000004);
+			};
+            
+            animate();
+        
+
+        }
+			
+		</script>
+	</body>
+</html>
